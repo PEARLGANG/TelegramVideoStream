@@ -36,21 +36,20 @@ def raw_converter(source, output):
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
-        msg = await m.reply("`Downloading...`")
+        msg = await m.reply("`Firing The Stream!`")
         try:
             stream_url = STREAM_URL
             try:
                 stream_url = m.text.split(' ', 1)[1]
             except IndexError:
                 ...
-            await msg.edit("`Converting...`")
             file = f"stream(m.chat.id).raw"
             process = raw_converter(stream_url, file)
             await asyncio.sleep(5)
             await group_call.start(m.chat.id)
             group_call.input_filename = file
             await group_call.set_video_capture(stream_url)
-            await msg.edit("**▶️ Started Streaming!**")
+            await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 @Client.on_message(filters.command("stop"))
@@ -59,6 +58,6 @@ async def stopvideo(client, m: Message):
     try:
         process.terminate()
         await group_call.stop()
-        await m.reply("**⏹ Stopped Streaming!**")
+        await m.reply("**K Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
