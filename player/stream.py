@@ -12,6 +12,7 @@ VIDEO_CALL = {}
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_file_group_call()
 process = None
+
 def raw_converter(source, output):
     return subprocess.Popen(
         [
@@ -39,14 +40,9 @@ def raw_converter(source, output):
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
-        global video
         msg = await m.reply("`Firing The Stream!`")
         try:
             stream_url = STREAM_URL
-            try:
-                stream_url = m.text.split(' ', 1)[1]
-            except IndexError:
-                ...
             file = f"stream(m.chat.id).raw"
             mp4 = f"output.mp4"
             process = raw_converter(stream_url, file)
@@ -70,37 +66,3 @@ async def stopvideo(client, m: Message):
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
 
-
-
-@Client.on_message(filters.command("vstream"))
-async def stream(client, m: Message):
-    replied = m.reply_to_message
-    if not replied:
-        await m.reply("**Give me a video to stream*")
-    elif replied.video or replied.document:
-        msg = await m.reply("📥 **Downloading**")
-        try:
-            file = f"vid{m.chat.id}.raw"
-            video = await client.download_media(m.reply_to_message)
-            os.system(f'ffmpeg -i "{video}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo=0.81" vid{m.chat.id}.raw -y')
-        except Exception as e:
-            await msg.edit(f"**🚫 Error** - `{e}`")
-        await asyncio.sleep(5)
-        try:
-            await group_call.start(m.chat.id)
-            group_call.input_filename = file
-            await group_call.set_video_capture(video, repeat=False)
-            VIDEO_CALL[m.chat.id] = group_call
-            await msg.edit("💡 **video streaming started!**\n\n» **join to video chat to watch the video.**")
-        except Exception as e:
-            await msg.edit(f"**Error** -- `{e}`")
-    else:
-        await m.reply("**¶lay wot my ass?**")
-
-@Client.on_message(filters.command("vstop"))
-async def stopvideo(client, m: Message):
-    try:
-        await VIDEO_CALL[m.chat.id].stop()
-        await m.reply(" **Ended Vstream!")
-    except Exception as e:
-        await m.reply(f"**🚫 Error** - `{e}`")
