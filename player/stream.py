@@ -44,7 +44,7 @@ async def stream(client, m: Message):
         try:
             stream_url = STREAM_URL
             file = f"stream(m.chat.id).raw"
-           if not VIDEO_CALL.get(m.chat.id):
+            if not VIDEO_CALL.get(m.chat.id):
                   Kek = VIDEO_CALL[m.chat.id]
                   Kek.terminate()
             process = raw_converter(stream_url, file)
