@@ -63,13 +63,13 @@ async def stream(client, m: Message):
                 ...
             file = f"stream(m.chat.id).raw"
             mp4 = f"output.mp4"
-            process = raw_converter(text, file)
+            process = raw_converter(stream_url, file)
             #video = mp4_converter(stream_url, mp4)
             await asyncio.sleep(5)
         try: 
             await group_call.start(m.chat.id)
             group_call.input_filename = file
-            await group_call.set_video_capture(text)
+            await group_call.set_video_capture(stream_url)
             VIDEO_CALL[m.chat.id] = group_call
             await msg.edit("**Streaming!**")
         except Exception as e:
@@ -100,9 +100,9 @@ async def stream(client, m: Message):
     elif replied.video or replied.document:
         msg = await m.reply("📥 **Downloading**")
         try:
-            file = f"vid-{m.chat.id}.raw"
+            file = f"vid{m.chat.id}.raw"
             video = await client.download_media(m.reply_to_message)
-            os.system(f'ffmpeg -i "{video}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo=0.81" vid-{m.chat.id}.raw -y')
+            os.system(f'ffmpeg -i "{video}" -vn -f s16le -ac 2 -ar 48000 -acodec pcm_s16le -filter:a "atempo=0.81" vid{m.chat.id}.raw -y')
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
         await asyncio.sleep(5)
