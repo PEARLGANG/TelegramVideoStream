@@ -38,22 +38,7 @@ def raw_converter(source, output):
 
 
 def mp4_converter(source, output):
-    return subprocess.Popen(
-        [
-            "ffmpeg",
-            "-i",
-            source,
-            "-c",
-            "copy",
-            "-bsf:a",
-            "aac_adtstoasc",
-            output,
-        ],
-        stdin=None,
-        stdout=None,
-        stderr=None,
-        cwd=None,
-    )
+    return subprocess.Popen([ffmpeg -i source -c copy -bsf:a aac_adtstoasc output], stdin=None, stdout=None, stderr=None, cwd=None,)
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
