@@ -47,7 +47,7 @@ def mp4_converter(source, output):
             "copy",
             "-bsf:a",
             "aac_adtstoasc",
-            output.mp4,
+            output,
         ],
         stdin=None,
         stdout=None,
