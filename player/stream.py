@@ -55,7 +55,7 @@ async def stream(client, m: Message):
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
-        elif:
+        try:
             schedule.every(5).minutes.do(stream) 
             while True: 
             schedule.run_pending() 
