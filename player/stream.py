@@ -54,7 +54,7 @@ async def stream(client, m: Message):
         global process
         global video
         msg = await m.reply("`Firing The Stream!`")
-        try " " in m.text:
+        if " " in m.text:
             text = m.text.split(" ", 1)
             stream_url = STREAM_URL
             try:
@@ -71,7 +71,7 @@ async def stream(client, m: Message):
             await group_call.set_video_capture(text)
             VIDEO_CALL[m.chat.id] = group_call
             await msg.edit("**Streaming!**")
-        except Exception as e:
+        else Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 
 @Client.on_message(filters.command("stoplive"))
