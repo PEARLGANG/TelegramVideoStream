@@ -39,12 +39,9 @@ def mp4_converter(source, output):
     return subprocess.Popen(
         [
             "ffmpeg",
-            "-i",
             source,
             "-c",
             "copy",
-            "-bsf:a",
-            "aac_adtstoasc",
             output,
         ],
         stdin=None,
