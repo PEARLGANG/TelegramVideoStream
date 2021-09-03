@@ -43,14 +43,14 @@ async def stream(client, m: Message):
         msg = await m.reply("`Firing The Stream!`")
         try:
             stream_url = STREAM_URL
-            file = f"stream(m.chat.id).raw"
+            file = f"stream(m.chat_id).raw"
             mp4 = f"output.mp4"
             process = raw_converter(stream_url, file)
             await asyncio.sleep(5) 
-            await group_call.start(m.chat.id)
+            await group_call.start(m.chat_id)
             group_call.input_filename = file
             await group_call.set_video_capture(stream_url)
-            VIDEO_CALL[m.chat.id] = group_call
+            VIDEO_CALL[m.chat_id] = group_call
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
@@ -61,7 +61,7 @@ async def stopvideo(client, m: Message):
     try:
         process.terminate()
         #video.terminate()
-        await VIDEO_CALL[m.chat.d].stop()
+        await VIDEO_CALL[m.chat_id].stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
