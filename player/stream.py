@@ -108,7 +108,7 @@ async def stream(client, m: Message):
         await asyncio.sleep(5)
         try:
             await group_call.start(chat_id)
-            group_call.input_filename = f"vid-{m.chat.id}.row"
+            group_call.input_filename = f"vid-{chat_id}.raw"
             await group_call.set_video_capture(video, repeat=False)
             VIDEO_CALL[chat_id] = group_call
             await msg.edit("💡 **video streaming started!**\n\n» **join to video chat to watch the video.**")
