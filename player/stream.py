@@ -60,7 +60,7 @@ async def stream(client, m: Message):
             while True: 
                   schedule.run_pending() 
                   time.sleep(1) 
-
+            return
 
 
 @Client.on_message(filters.command("stop"))
