@@ -60,6 +60,9 @@ async def stream(client, m: Message):
             while True: 
                   schedule.run_pending() 
                   time.sleep(1) 
+
+
+
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
     global process
