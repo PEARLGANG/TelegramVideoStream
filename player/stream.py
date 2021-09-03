@@ -1,7 +1,6 @@
 import os
 import asyncio
-import subprocess
-import ffmpeg
+import subprocess 
 from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from pyrogram.types import Message
