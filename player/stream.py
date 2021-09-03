@@ -65,11 +65,11 @@ async def stream(client, m: Message):
                 ...
             file = f"stream(m.chat.id).raw"
             mp4 = f"output.mp4"
-            process = raw_converter(stream_url, file)
+            #process = raw_converter(stream_url, file)
             video = mp4_converter(stream_url, mp4)
             await asyncio.sleep(5)
             await group_call.start(m.chat.id)
-            group_call.input_filename = file
+            group_call.input_filename = mp4
             await group_call.set_video_capture(mp4)
             await msg.edit("**Streaming!**")
         except Exception as e:
