@@ -58,6 +58,7 @@ async def stopvideo(client, m: Message):
     global process
     try:
         process.terminate()
+        await group_call.stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
