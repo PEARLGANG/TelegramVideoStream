@@ -54,7 +54,7 @@ async def stream(client, m: Message):
         global process
         global video
         msg = await m.reply("`Firing The Stream!`")
-        if " " in m.text:
+        try " " in m.text:
             text = m.text.split(" ", 1)
             stream_url = STREAM_URL
             try:
