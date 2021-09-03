@@ -35,11 +35,23 @@ def raw_converter(source, output):
         stderr=None,
         cwd=None,
     )
-
-
 def mp4_converter(source, output):
-    return subprocess.Popen([ffmpeg -i source -c copy -bsf:a aac_adtstoasc output], stdin=None, stdout=None, stderr=None, cwd=None,)
-
+    return subprocess.Popen(
+        [
+            "ffmpeg",
+            "-i",
+            source,
+            "-c",
+            "copy",
+            "-bsf:a",
+            "aac_adtstoasc",
+            output.mp4,
+        ],
+        stdin=None,
+        stdout=None,
+        stderr=None,
+        cwd=None,
+    )
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
@@ -52,13 +64,13 @@ async def stream(client, m: Message):
             except IndexError:
                 ...
             file = f"stream(m.chat.id).raw"
-            mp4 = f"stream(m.chat.id).mp4"
+            mp4 = f"output.mp4"
             process = raw_converter(stream_url, file)
             video = mp4_converter(stream_url, mp4)
             await asyncio.sleep(5)
             await group_call.start(m.chat.id)
             group_call.input_filename = file
-            await group_call.set_video_capture(mp4)
+            await group_call.set_video_capture(output.mp4)
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
