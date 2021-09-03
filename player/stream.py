@@ -55,14 +55,6 @@ async def stream(client, m: Message):
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
-        try:
-            schedule.every(5).minutes.do(stream) 
-            while True: 
-                  schedule.run_pending() 
-                  time.sleep(1) 
-        except Exception as e:
-            await msg.edit(f"**🚫 Error** - `{e}`")
-
 
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
