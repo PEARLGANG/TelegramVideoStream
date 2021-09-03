@@ -92,7 +92,7 @@ async def stopvideo(client, m: Message):
 
 
 
-Client.on_message(filters.command("vstream"))
+@Client.on_message(filters.command("vstream"))
 async def stream(client, m: Message):
     replied = m.reply_to_message
     if not replied:
