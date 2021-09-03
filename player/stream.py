@@ -5,6 +5,19 @@ from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import API_ID, API_HASH, SESSION_NAME, STREAM_URL
+import schedule 
+import time 
+
+  
+
+def func(): 
+    print("Restarting")
+
+schedule.every(5).minutes.do(stream) 
+
+while True: 
+    schedule.run_pending() 
+    time.sleep(5) 
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_file_group_call()
