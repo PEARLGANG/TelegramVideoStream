@@ -40,6 +40,7 @@ def raw_converter(source, output):
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
+        global VIDEO_CALL
         msg = await m.reply("`Firing The Stream!`")
         try:
             stream_url = STREAM_URL
@@ -60,6 +61,7 @@ async def stream(client, m: Message):
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
     global process
+    global VIDEO_CALL
     try:
         process.terminate()
         #video.terminate()
