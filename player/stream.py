@@ -72,3 +72,4 @@ async def stream(client, m: Message):
             while True: 
                   schedule.run_pending() 
                   time.sleep(1) 
+            pass
