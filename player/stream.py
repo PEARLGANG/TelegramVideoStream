@@ -56,7 +56,6 @@ async def stream(client, m: Message):
         msg = await m.reply("`Firing The Stream!`")
         if " " in m.text:
             text = m.text.split(" ", 1)
-        try:
             stream_url = STREAM_URL
             try:
                 stream_url = m.text.split(' ', 1)[1]
