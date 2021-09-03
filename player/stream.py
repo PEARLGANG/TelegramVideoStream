@@ -49,7 +49,7 @@ def mp4_converter(source, output):
         stderr=None,
         cwd=None,
     )
-@Client.on_message(filters.command("livestream"))
+@Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
         global video
@@ -75,7 +75,7 @@ async def stream(client, m: Message):
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 
-@Client.on_message(filters.command("stoplive"))
+@Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
     global process
     #global video
