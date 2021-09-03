@@ -4,7 +4,7 @@ RUN apt update && apt upgrade -y
 RUN apt install python3-pip -y
 RUN apt install ffmpeg -y
 
-RUN mkdir /Rider
+RUN mkdir /Rider/
 WORKDIR /Rider/
 COPY . /Rider/
 
