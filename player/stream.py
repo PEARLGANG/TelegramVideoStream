@@ -36,18 +36,6 @@ def raw_converter(source, output):
         cwd=None,
     )
 
-
-@Client.on_message(filters.command("stop"))
-async def stopvideo(client, m: Message):
-    global process
-    try:
-        process.terminate()
-        await group_call.stop()
-        await m.reply("**K Stopped!**")
-    except Exception as e:
-        await m.reply(f"**🚫 Error** - `{e}`")
-
-
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
@@ -74,3 +62,15 @@ async def stream(client, m: Message):
                   time.sleep(1) 
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
+
+
+@Client.on_message(filters.command("stop"))
+async def stopvideo(client, m: Message):
+    global process
+    try:
+        process.terminate()
+        await group_call.stop()
+        await m.reply("**K Stopped!**")
+    except Exception as e:
+        await m.reply(f"**🚫 Error** - `{e}`")
+
