@@ -18,20 +18,16 @@ ydl_opts = {
     }
 ydl = YoutubeDL(ydl_opts)
 links=[]
-
 def raw_converter(source, output):
     return subprocess.Popen(
         [
             "ffmpeg",
-            "-y",
             "-i",
             source,
-            "-f",
-            "rawvideo",
-            "-bsf",
-            "h264_mp4toannexb",
-            "-vcodec",
+            "-c",
             "copy",
+            "-bsf:a",
+            "aac_adtstoasc",
             output,
         ],
         stdin=None,
