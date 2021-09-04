@@ -18,7 +18,7 @@ ydl_opts = {
     }
 ydl = YoutubeDL(ydl_opts)
 links=[]
-def raw_converter(source, output):
+def mp4_converter(source, output):
     return subprocess.Popen(
         [
             "ffmpeg",
@@ -36,6 +36,27 @@ def raw_converter(source, output):
         cwd=None,
     )
 
+def mov_flags(source, output):
+    return subprocess.Popen(
+        [
+            "ffmpeg",
+            "-i",
+            source,
+            "-vcodec",
+            "copy",
+            "-acodec",
+            "copy",
+            "-movflags",
+            "faststart",
+            "output",
+        ],
+        stdin=None,
+        stdout=None,
+        stderr=None,
+        cwd=None,
+    )
+
+
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
         global process
@@ -47,11 +68,13 @@ async def stream(client, m: Message):
                 links.append(f['url'])
                 finalurl=links[-1]
             print(finalurl)
-            file = f"outut.mp4"
-            process = raw_converter(finalurl, file)
+            file = f"output.mp4"
+            file2= f"out.mp4"
+            process = mp4_converter(finalurl, file)
+            process = mov_flags(file, file2)
             await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
-            await group_call.start_video(file)
+            await group_call.start_video(file2)
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
