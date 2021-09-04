@@ -10,7 +10,7 @@ import time
 VIDEO_CALL = {}
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_file_group_call()
+group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_group_call()
 process = None
 
 def raw_converter(source, output):
@@ -44,11 +44,11 @@ async def stream(client, m: Message):
         try:
             stream_url = STREAM_URL
             file = f"stream(m.chat.id).raw"
-            process = raw_converter(stream_url, file)
-            await asyncio.sleep(5) 
+            #process = raw_converter(stream_url, file)
+            #await asyncio.sleep(5) 
             await group_call.start(m.chat.id)
-            group_call.input_filename = file
-            await group_call.set_video_capture(stream_url)
+            group_call.start_video = stream_url
+            #await group_call.set_video_capture(stream_url)
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
