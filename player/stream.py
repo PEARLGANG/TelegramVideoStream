@@ -53,9 +53,8 @@ async def stream(client, m: Message):
             url = text[1]
             meta = ydl.extract_info(url, download=False)
             formats = meta.get('formats', [meta])
-            for f in formats:
-                links.append(f['url'])
-                finalurl=links[-1]
+            links.append(meta['url'])
+            finalurl=links[-1]
             #file = f"dr.mkv"
             #process = mp4_converter(finalurl, file)
             await asyncio.sleep(5) 
