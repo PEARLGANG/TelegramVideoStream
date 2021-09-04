@@ -69,7 +69,8 @@ async def stream(client, m: Message):
             await group_call.start_video(video)
             await msg.edit("**Streaming!**")  
 
-        else: 
+        else:
+            await msg.edit("Finding errors")
             raise Exception as e:
                await msg.edit(f"**🚫 Error** - `{e}`")
 
