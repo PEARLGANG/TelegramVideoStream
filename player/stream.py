@@ -1,12 +1,13 @@
 import os
 import asyncio
 import subprocess 
+import schedule 
+import time 
 from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import API_ID, API_HASH, SESSION_NAME, STREAM_URL
-import schedule 
-import time 
+from streamlit import caching
 from youtube_dl import YoutubeDL
 process = None
 app = Client(SESSION_NAME, API_ID, API_HASH)
@@ -62,6 +63,7 @@ async def stopvideo(client, m: Message):
     try:
         #process.terminate()
         await group_call.stop()
+        await caching.clear_cache()
         await m.reply("**K Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
