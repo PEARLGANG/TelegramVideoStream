@@ -29,8 +29,6 @@ def mp4_converter(source, output):
             "copy",
             "-bsf:a",
             "aac_adtstoasc",
-            "-movflags",
-            "faststart",
             output,
         ],
         stdin=None,
@@ -38,27 +36,6 @@ def mp4_converter(source, output):
         stderr=None,
         cwd=None,
     )
-
-def mov_flags(source, output):
-    return subprocess.Popen(
-      [
-            "ffmpeg",
-           "-i",
-            source,
-            "-vcodec",
-            "copy",
-            "-acodec",
-            "copy",
-            "-movflags",
-            "faststart",
-            "output",
-        ],
-        stdin=None,
-        stdout=None,
-        stderr=None,
-        cwd=None,
-    )
-
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
@@ -72,12 +49,8 @@ async def stream(client, m: Message):
                 finalurl=links[-1]
             print(finalurl)
             file = f"dr.mkv"
-            #file2= f"rider.mp4"
             process = mp4_converter(finalurl, file)
-            #video.append(f"dr.mp4")
             await asyncio.sleep(5) 
-            #process = mov_flags(file, file2)
-            #await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
             await group_call.start_video(file)
             await msg.edit("**Streaming!**")         
@@ -88,7 +61,7 @@ async def stream(client, m: Message):
 async def stopvideo(client, m: Message):
     global process
     try:
-        await process.terminate()
+        process.terminate()
         await group_call.stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
