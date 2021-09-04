@@ -3,3 +3,4 @@ schedule
 ffmpeg-python
 git+https://github.com/pyrogram/pyrogram@master
 pytgcalls==3.0.0.dev11
+youtube_dl
