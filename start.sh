@@ -1,2 +1,2 @@
 echo """Fuck Awaited Error"""
-python3 -m player
+python3 -m player/main.py
