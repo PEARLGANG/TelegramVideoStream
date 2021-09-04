@@ -25,7 +25,7 @@ def raw_converter(source, output):
             "h264_mp4toannexb",
             "-vcodec",
             "copy",
-            output,
+            output.mp4,
         ],
         stdin=None,
         stdout=None,
@@ -52,7 +52,7 @@ async def stream(client, m: Message):
                 links.append(f['url'])
                 finalurl=links[-1]
             print(finalurl)
-            file = f"stream(m.chat.id).mp4"
+            file = f"outut.mp4"
             process = raw_converter(STREAM_URL, file)
             await group_call.join(m.chat.id)
             await group_call.start_video(file)
