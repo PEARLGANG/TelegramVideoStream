@@ -25,7 +25,7 @@ def raw_converter(source, output):
             "h264_mp4toannexb",
             "-vcodec",
             "copy",
-            output.mp4,
+            output,
         ],
         stdin=None,
         stdout=None,
