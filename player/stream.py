@@ -24,8 +24,9 @@ links=[]
 async def stream(client, m: Message):
         msg = await m.reply("`Firing The Stream!`")
         try:
-            link=m.reply_to_message.text    
-            meta = ydl.extract_info(link, download=False)
+            " " in m.text:
+            text = m.text.split(" ", 1)  
+            meta = ydl.extract_info(text, download=False)
             formats = meta.get('formats', [meta])
             for f in formats:
                 links.append(f['url'])
