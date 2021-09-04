@@ -39,7 +39,7 @@ def mp4_converter(source, output):
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
-        global process
+        #global process
         msg = await m.reply("`Firing The Stream!`")
         try:
             meta = ydl.extract_info(STREAM_URL, download=False)
@@ -47,8 +47,7 @@ async def stream(client, m: Message):
             for f in formats:
                 links.append(f['url'])
                 finalurl=links[-1]
-            print(finalurl)
-           #file = f"dr.mkv"
+            #file = f"dr.mkv"
             #process = mp4_converter(finalurl, file)
             #await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
