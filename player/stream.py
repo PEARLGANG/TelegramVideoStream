@@ -69,8 +69,9 @@ async def stream(client, m: Message):
             await group_call.start_video(video)
             await msg.edit("**Streaming!**")  
 
-        else Exception as e:
-            await msg.edit(f"**🚫 Error** - `{e}`")
+        else: 
+            raise Exception as e:
+               await msg.edit(f"**🚫 Error** - `{e}`")
 
 @Client.on_message(filters.command("live"))
 async def live(client, m: Message):
