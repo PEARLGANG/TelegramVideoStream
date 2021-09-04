@@ -63,7 +63,7 @@ async def stopvideo(client, m: Message):
     try:
         #process.terminate()
         await group_call.stop()
-        await caching.clear_cache()
+        caching.clear_cache()
         await m.reply("**K Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
