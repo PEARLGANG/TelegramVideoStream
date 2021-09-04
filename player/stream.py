@@ -46,7 +46,7 @@ async def stream(client, m: Message):
             file = f"stream(m.chat.id).raw"
             #process = raw_converter(stream_url, file)
             #await asyncio.sleep(5) 
-            await group_call.start(m.chat.id)
+            await group_call.join(m.chat.id)
             await group_call.start_video(stream_url)
             #await group_call.set_video_capture(stream_url)
             await msg.edit("**Streaming!**")
