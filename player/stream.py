@@ -11,9 +11,9 @@ VIDEO_CALL = {}
 
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_group_call()
-process = None
+#process = None
 
-def raw_converter(source, output):
+#def raw_converter(source, output):
     return subprocess.Popen(
         [
             "ffmpeg",
@@ -39,11 +39,11 @@ def raw_converter(source, output):
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
-        global process
+        #global process
         msg = await m.reply("`Firing The Stream!`")
         try:
             stream_url = STREAM_URL
-            file = f"stream(m.chat.id).raw"
+            #file = f"stream(m.chat.id).raw"
             #process = raw_converter(stream_url, file)
             #await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
@@ -55,9 +55,9 @@ async def stream(client, m: Message):
 
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
-    global process
+    #global process
     try:
-        process.terminate()
+        #process.terminate()
         await group_call.stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
