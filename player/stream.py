@@ -41,6 +41,7 @@ def mp4_converter(source, output):
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
+    global process
     try:
         media = m.reply_to_message
         if not media and not ' ' in m.text:
@@ -55,11 +56,11 @@ async def stream(client, m: Message):
             for f in formats:
                 links.append(f['url'])
                 finalurl=links[-1]
-            #file = f"dr.mkv"
-            #process = mp4_converter(finalurl, file)
-            #await asyncio.sleep(5) 
+            file = f"dr.mkv"
+            process = mp4_converter(finalurl, file)
+            await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
-            await group_call.start_video(finalurl)
+            await group_call.start_video(file)
             await msg.edit("**Streaming!**")  
         
         elif media.video or media.document:
@@ -87,7 +88,7 @@ async def live(client, m: Message):
 async def stopvideo(client, m: Message):
     global process
     try:
-        #process.terminate()
+        process.terminate()
         await group_call.stop()
         caching.clear_cache()
         await m.reply("**K Stopped!**")
