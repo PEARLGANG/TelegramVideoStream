@@ -11,6 +11,7 @@ from youtube_dl import YoutubeDL
 process = None
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_group_call()
+video = []
 
 ydl_opts = {
     "geo-bypass": True,
@@ -71,17 +72,22 @@ async def stream(client, m: Message):
             file = f"output.mp4"
             file2= f"out.mp4"
             process = mp4_converter(finalurl, file)
-            process = mov_flags(file, file2)
+            await video.append(f"output.mp4")
             await asyncio.sleep(5) 
-            await group_call.join(m.chat.id)
-            await group_call.start_video(file2)
-            await msg.edit("**Streaming!**")
+            if f"output.mp4" in video:
+                 process = mov_flags(file, file2)
+                 await asyncio.sleep(5) 
+                 await group_call.join(m.chat.id)
+                 await group_call.start_video(file2)
+                 await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
+    global process
     try:
+        await process.terminate()
         await group_call.stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
