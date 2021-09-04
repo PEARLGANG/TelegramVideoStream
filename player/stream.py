@@ -42,17 +42,17 @@ async def stream(client, m: Message):
         global process
         msg = await m.reply("`Firing The Stream!`")
         try:
-            meta = ydl.extract_info(STREAM_URL, download=False)
-            formats = meta.get('formats', [meta])
-            for f in formats:
-                links.append(f['url'])
-                finalurl=links[-1]
-            print(finalurl)
-            file = f"dr.mkv"
-            process = mp4_converter(finalurl, file)
-            await asyncio.sleep(5) 
+            #meta = ydl.extract_info(STREAM_URL, download=False)
+            #formats = meta.get('formats', [meta])
+           # for f in formats:
+                #links.append(f['url'])
+                #finalurl=links[-1]
+            #print(finalurl)
+           # file = f"dr.mkv"
+            #process = mp4_converter(finalurl, file)
+            #await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
-            await group_call.start_video(file)
+            await group_call.start_video(STREAM_URL)
             await msg.edit("**Streaming!**")         
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
@@ -61,7 +61,7 @@ async def stream(client, m: Message):
 async def stopvideo(client, m: Message):
     global process
     try:
-        process.terminate()
+        #process.terminate()
         await group_call.stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
