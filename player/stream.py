@@ -24,14 +24,12 @@ links=[]
 async def stream(client, m: Message):
         msg = await m.reply("`Firing The Stream!`")
         try:
-            if " " in m.text:
-                text = m.text.split(" ", 1)  
-                meta = ydl.extract_info(text, download=False)
-                formats = meta.get('formats', [meta])
-                for f in formats:
-                    links.append(f['url'])
-                    finalurl=links[-1]
-                print(finalurl)
+            meta = ydl.extract_info(STREAM_URL, download=False)
+            formats = meta.get('formats', [meta])
+            for f in formats:
+                links.append(f['url'])
+                finalurl=links[-1]
+            print(finalurl)
             await group_call.join(m.chat.id)
             await group_call.start_video(finalurl)
             await msg.edit("**Streaming!**")
