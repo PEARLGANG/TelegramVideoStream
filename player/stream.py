@@ -39,30 +39,30 @@ def mp4_converter(source, output):
         cwd=None,
     )
 
-#def mov_flags(source, output):
- #   return subprocess.Popen(
-  #      [
-   #         "ffmpeg",
-    #        "-i",
-     #       source,
-      #      "-vcodec",
-       #     "copy",
-        #    "-acodec",
-         #   "copy",
-          #  "-movflags",
-           # "faststart",
-            #"output",
-        #],
-        #stdin=None,
-        #stdout=None,
-        #stderr=None,
-        #cwd=None,
-    #)
+def mov_flags(source, output):
+    return subprocess.Popen(
+      [
+            "ffmpeg",
+           "-i",
+            source,
+            "-vcodec",
+            "copy",
+            "-acodec",
+            "copy",
+            "-movflags",
+            "faststart",
+            "output",
+        ],
+        stdin=None,
+        stdout=None,
+        stderr=None,
+        cwd=None,
+    )
 
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
-        #global process
+        global process
         msg = await m.reply("`Firing The Stream!`")
         try:
             meta = ydl.extract_info(STREAM_URL, download=False)
@@ -71,24 +71,24 @@ async def stream(client, m: Message):
                 links.append(f['url'])
                 finalurl=links[-1]
             print(finalurl)
-            file = f"dr.mp4"
+            file = f"dr.mkv"
             #file2= f"rider.mp4"
-            #process = mp4_converter(finalurl, file)
+            process = mp4_converter(finalurl, file)
             #video.append(f"dr.mp4")
-            #await asyncio.sleep(5) 
-            #process = mov_flags(file, file2)
             await asyncio.sleep(5) 
+            #process = mov_flags(file, file2)
+            #await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
-            await group_call.start_video(finalurl)
+            await group_call.start_video(file)
             await msg.edit("**Streaming!**")         
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
-    #global process
+    global process
     try:
-        #await process.terminate()
+        await process.terminate()
         await group_call.stop()
         await m.reply("**K Stopped!**")
     except Exception as e:
