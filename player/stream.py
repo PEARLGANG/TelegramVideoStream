@@ -17,7 +17,7 @@ async def stream(client, m: Message):
         msg = await m.reply("`Firing The Stream!`")
         try:
             await group_call.join(m.chat.id)
-            await group_call.start_video(stream_url)
+            await group_call.start_video(STREAM_URL)
             await msg.edit("**Streaming!**")
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
