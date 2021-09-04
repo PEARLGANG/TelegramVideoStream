@@ -72,7 +72,7 @@ async def stream(client, m: Message):
         else Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 
- @Client.on_message(filters.command("live"))
+@Client.on_message(filters.command("live"))
 async def live(client, m: Message):
         msg = await m.reply("`Firing The Stream!`")
         try:
