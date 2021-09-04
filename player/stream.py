@@ -69,17 +69,18 @@ async def stream(client, m: Message):
                 links.append(f['url'])
                 finalurl=links[-1]
             print(finalurl)
-            file = f"output.mp4"
-            file2= f"out.mp4"
+            file = f"dr.mp4"
+            file2= f"rider.mp4"
             process = mp4_converter(finalurl, file)
-            await video.append(f"output.mp4")
             await asyncio.sleep(5) 
-            if f"output.mp4" in video:
+            try:
                  process = mov_flags(file, file2)
                  await asyncio.sleep(5) 
                  await group_call.join(m.chat.id)
                  await group_call.start_video(file2)
                  await msg.edit("**Streaming!**")
+            except Exception as e:
+                 await msg.edit(f"**🚫 Error** - `{e}`")         
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")
 
