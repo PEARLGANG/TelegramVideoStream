@@ -41,7 +41,7 @@ def mp4_converter(source, output):
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
-        #global process
+    try:
         media = m.reply_to_message
         if not media and not ' ' in m.text:
             await m.reply("Neither YT Link Nor Media? Kek=fuck.off()!")
@@ -69,10 +69,8 @@ async def stream(client, m: Message):
             await group_call.start_video(video)
             await msg.edit("**Streaming!**")  
 
-        else:
-            await msg.edit("Finding errors")
-            raise Exception as e:
-               await msg.edit(f"**🚫 Error** - `{e}`")
+    except Exception as e:
+        await msg.edit(f"**🚫 Error** - `{e}`")
 
 @Client.on_message(filters.command("live"))
 async def live(client, m: Message):
