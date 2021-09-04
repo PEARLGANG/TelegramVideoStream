@@ -1,5 +1,6 @@
 TgCrypto
 schedule
+streamlit
 ffmpeg-python
 git+https://github.com/pyrogram/pyrogram@master
 pytgcalls==3.0.0.dev12
