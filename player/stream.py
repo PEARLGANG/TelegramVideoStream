@@ -53,7 +53,7 @@ async def stream(client, m: Message):
             msg = await m.reply("`Firing The Stream!`")
             text = m.text.split(' ', 1)
             url = text[1]
-            results = YoutubeSearch(query, max_results=1).to_dict()
+            results = YoutubeSearch(url, max_results=1).to_dict()
             link = f"https://youtube.com{results[0]['url_suffix']}"
             video = pafy.new(link)
             video_source = video.getbest().url
