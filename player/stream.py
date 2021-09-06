@@ -2,7 +2,9 @@ import os
 import asyncio
 import subprocess 
 import schedule 
-import time 
+import time
+import pafy
+from youtube_search import YoutubeSearch
 from pytgcalls import GroupCallFactory
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -51,22 +53,22 @@ async def stream(client, m: Message):
             msg = await m.reply("`Firing The Stream!`")
             text = m.text.split(' ', 1)
             url = text[1]
-            meta = ydl.extract_info(url, download=False)
-            formats = meta.get('formats', [meta])
-            links.append(meta['url'])
-            finalurl=links[-1]
+            results = YoutubeSearch(query, max_results=1).to_dict()
+            link = f"https://youtube.com{results[0]['url_suffix']}"
+            video = pafy.new(link)
+            video_source = video.getbest().url
             #file = f"dr.mkv"
             #process = mp4_converter(finalurl, file)
             await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
-            await group_call.start_video(finalurl)
+            await group_call.start_video(videosource)
             await msg.edit("**Streaming!**")  
         
         elif media.video or media.document:
             msg = await m.reply_text("`Trying to Stream the File...`")    
             video = await client.download_media(media)
             await group_call.start(m.chat.id)
-            await group_call.start_video(video)
+            await group_call.start_video(video, 1280, 720, 20)
             await msg.edit("**Streaming!**")  
 
     except Exception as e:
