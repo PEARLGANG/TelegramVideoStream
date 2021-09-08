@@ -20,6 +20,7 @@ async def stream(client, m: Message):
     try:
         msg = await m.reply("`Firing The Stream!`")
         media = m.reply_to_message
+
         gc = DATA.get(m.chat.id)
         if gc is None:
             DATA[m.chat.id] = group_call
@@ -54,11 +55,13 @@ async def live(client, m: Message):
         gc = DATA.get(m.chat.id)
         if gc is None:
             DATA[m.chat.id] = group_call
+
         msg = await m.reply("`Firing The Stream!`")
         try:
-            DATA[m.chat.id] = await group_call.join(m.chat.id)
-            DATA[m.chat.id] = await group_call.start_video(STREAM_URL, enable_experimental_lip_sync=True)
-            await msg.edit("**Stream Is Live!**")         
+            await group_call.join(m.chat.id)
+            await group_call.start_video(STREAM_URL, enable_experimental_lip_sync=True)
+            await msg.edit("**Stream Is Live!**")    
+     
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")           
             
@@ -74,13 +77,3 @@ async def stopvideo(client, m: Message):
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
 
-@Client.on_message(filters.command("lstop"))
-async def stoplive(client, m: Message):
-    try:
-        gc = DATA.get(m.chat.id)
-        if gc:
-            await group_call.stop()
-            caching.clear_cache()
-            await m.reply("**K Live Stopped!**")
-    except Exception as e:
-        await m.reply(f"**🚫 Error** - `{e}`")
