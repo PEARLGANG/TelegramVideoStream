@@ -10,8 +10,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from config import API_ID, API_HASH, SESSION_NAME, STREAM_URL
 from streamlit import caching
-from youtube_dl import YoutubeDL
-process = None
+
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_group_call()
 DATA = {}
@@ -69,7 +68,6 @@ async def stopvideo(client, m: Message):
     try:
         gc = DATA.get(m.chat.id)
         if gc:
-            DATA[m.chat.id].pop()
             await group_call.stop()
             caching.clear_cache()
             await m.reply("**K Stopped!**")
