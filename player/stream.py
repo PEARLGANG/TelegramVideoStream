@@ -56,8 +56,8 @@ async def live(client, m: Message):
             DATA[m.chat.id] = group_call
         msg = await m.reply("`Firing The Stream!`")
         try:
-            await group_call.join(m.chat.id)
-            await group_call.start_video(STREAM_URL, enable_experimental_lip_sync=True)
+            DATA[m.chat.id] = await group_call.join(m.chat.id)
+            DATA[m.chat.id] = await group_call.start_video(STREAM_URL, enable_experimental_lip_sync=True)
             await msg.edit("**Stream Is Live!**")         
         except Exception as e:
             await msg.edit(f"**🚫 Error** - `{e}`")           
