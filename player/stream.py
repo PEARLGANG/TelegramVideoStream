@@ -61,7 +61,7 @@ async def stream(client, m: Message):
             #process = mp4_converter(finalurl, file)
             await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
-            await group_call.start_video(video_source)
+            await group_call.start_video(video_source, enable_experimental_lip_sync=True)
             await msg.edit("**Streaming!**")  
         
         elif media.video or media.document:
