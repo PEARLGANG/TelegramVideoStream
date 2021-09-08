@@ -3,7 +3,7 @@ schedule
 streamlit
 ffmpeg-python
 git+https://github.com/pyrogram/pyrogram@master
-pytgcalls==3.0.0.dev14
+pytgcalls==3.0.0.dev16
 youtube_dl
 youtube_search
 pafy
