@@ -14,38 +14,16 @@ from youtube_dl import YoutubeDL
 process = None
 app = Client(SESSION_NAME, API_ID, API_HASH)
 group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_group_call()
-video = []
-
-ydl_opts = {
-    "geo-bypass": True,
-    "nocheckcertificate": True
-    }
-ydl = YoutubeDL(ydl_opts)
-links=[]
-
-def mp4_converter(source, output):
-    return subprocess.Popen(
-        [
-            "ffmpeg",
-            "-i",
-            source,
-            "-c",
-            "copy",
-            "-bsf:a",
-            "aac_adtstoasc",
-            output,
-        ],
-        stdin=None,
-        stdout=None,
-        stderr=None,
-        cwd=None,
-    )
+video = {}
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
-    #global process
     try:
         media = m.reply_to_message
+        gc = video.get(m.chat.id)
+        if gc is None:
+            video[m.chat.id] = group_call
+        
         if not media and not ' ' in m.text:
             await m.reply("Neither YT Link Nor Media? Kek=fuck.off()!")
 
@@ -57,8 +35,6 @@ async def stream(client, m: Message):
             link = f"https://youtube.com{results[0]['url_suffix']}"
             video = pafy.new(link)
             video_source = video.getbest().url
-            #file = f"dr.mkv"
-            #process = mp4_converter(finalurl, file)
             await asyncio.sleep(5) 
             await group_call.join(m.chat.id)
             await group_call.start_video(video_source, enable_experimental_lip_sync=True)
@@ -76,6 +52,9 @@ async def stream(client, m: Message):
 
 @Client.on_message(filters.command("live"))
 async def live(client, m: Message):
+        gc = video.get(m.chat.id)
+        if gc is None:
+            video[m.chat.id] = group_call
         msg = await m.reply("`Firing The Stream!`")
         try:
             await group_call.join(m.chat.id)
@@ -87,20 +66,23 @@ async def live(client, m: Message):
             
 @Client.on_message(filters.command("stop"))
 async def stopvideo(client, m: Message):
-    #global process
     try:
-        #process.terminate()
-        await group_call.stop()
-        caching.clear_cache()
-        await m.reply("**K Stopped!**")
+        gc = video.get(m.chat.id)
+        if gc:
+            gc[m.chat.id].pop()
+            await group_call.stop()
+            caching.clear_cache()
+            await m.reply("**K Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
 
 @Client.on_message(filters.command("lstop"))
 async def stoplive(client, m: Message):
     try:
-        await group_call.stop()
-        caching.clear_cache()
-        await m.reply("**K Live Stopped!**")
+        gc = video.get(m.chat.id)
+        if gc:
+            await group_call.stop()
+            caching.clear_cache()
+            await m.reply("**K Live Stopped!**")
     except Exception as e:
         await m.reply(f"**🚫 Error** - `{e}`")
