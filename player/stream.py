@@ -68,7 +68,7 @@ async def stream(client, m: Message):
             msg = await m.reply_text("`Trying to Stream the File...`")    
             video = await client.download_media(media)
             await group_call.start(m.chat.id)
-            await group_call.start_video(video, 1280, 720, 20)
+            await group_call.start_video(video, experimental_lip_sync=True)
             await msg.edit("**Streaming!**")  
 
     except Exception as e:
