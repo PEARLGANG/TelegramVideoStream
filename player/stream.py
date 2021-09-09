@@ -9,7 +9,7 @@ from pytgcalls import GroupCallFactory
 from pyrogram.utils import MAX_CHANNEL_ID
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from config import API_ID, API_HASH, SESSION_NAME, STREAM_URL
+from config import API_ID, API_HASH, SESSION_NAME, STREAM_URL, to_delete
 from streamlit import caching
 from player.queue import Queue
 from player.acc import Player
@@ -24,6 +24,7 @@ DATA = {}
 
 @Client.on_message(filters.command("stream"))
 async def stream(client, m: Message):
+    global to_delete
     try:
         player = Player(chat_id)
         msg = await m.reply("`Firing The Stream!`")
@@ -59,6 +60,7 @@ async def stream(client, m: Message):
 
 @Client.on_message(filters.command("live"))
 async def live(client, m: Message):
+        global to_delete
         player = Player(chat_id)
         is_file = False
         link = STREAM_URL
