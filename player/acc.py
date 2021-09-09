@@ -3,7 +3,7 @@ from pyrogram import Client
 from pyrogram.types import Message
 from pytgcalls import GroupCallFactory
 from pyrogram.utils import MAX_CHANNEL_ID
-from config import instances queues, to_delete
+from config import instances, queues, to_delete
 
 
 
