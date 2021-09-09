@@ -13,8 +13,8 @@ from config import API_ID, API_HASH, SESSION_NAME, STREAM_URL
 from streamlit import caching
 from player.queue import Queue
 from player.acc import Player
-app = Client(SESSION_NAME, API_ID, API_HASH)
-group_call = GroupCallFactory(app, GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM).get_group_call()
+
+
 
 DATA = {}
 
@@ -42,7 +42,7 @@ async def stream(client, m: Message):
             link = video.getbest().url
             is_file = False
             await asyncio.sleep(5) 
-            await group_call.join(m.chat.id)
+            await player.join(m.chat.id)
             p = await player.play_or_queue(link, m, is_file)
             await msg.edit("**Streaming!**" if p else "**Queued**")
         
@@ -50,7 +50,7 @@ async def stream(client, m: Message):
             msg = await m.reply_text("`Trying to Stream the File...`")    
             link = await client.download_media(media)
             is_file = True
-            await group_call.start(m.chat.id)
+            await player.join(m.chat.id)
             p = await player.play_or_queue(link, m, is_file)
             await msg.edit("**Streaming!**" if p else "**Queued**")  
 
@@ -64,7 +64,7 @@ async def live(client, m: Message):
         link = STREAM_URL
         msg = await m.reply("`Firing The Stream!`")
         try:
-            await group_call.join(m.chat.id)
+            await player.join(m.chat.id)
             await msg.edit("**Stream Is Live!**")    
             p = await player.play_or_queue(link, m, is_file)
             await msg.edit("**Streaming!**" if p else "**Queued**")  
