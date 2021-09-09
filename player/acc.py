@@ -3,12 +3,12 @@ from pyrogram import Client
 from pyrogram.types import Message
 from pytgcalls import GroupCallFactory
 from pyrogram.utils import MAX_CHANNEL_ID
-from config import instances, queues, to_delete
+from config import instances, queues, to_delete, API_ID, API_HASH, SESSION_NAME
 
 
 
 
-
+app = Client(SESSION_NAME, API_ID, API_HASH)
 
 
 class Player:
@@ -17,7 +17,7 @@ class Player:
         if instances.get(chat_id):
             self.group_call = instances[chat_id].get('instance')
         else:
-            _client = GroupCallFactory(Client, mtproto_backend=GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
+            _client = GroupCallFactory(app, mtproto_backend=GroupCallFactory.MTPROTO_CLIENT_TYPE.PYROGRAM)
             self.group_call = _client.get_file_group_call()
             instances[chat_id] = {'instance': self.group_call}
 
