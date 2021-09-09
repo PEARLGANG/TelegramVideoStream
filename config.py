@@ -1,5 +1,5 @@
 import os
-
+from player.queue import Queue
 instances = dict()
 queues = Queue()
 to_delete = []
